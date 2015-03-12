@@ -2,6 +2,8 @@
 
 This PHP library provide some security around the stealing of session.
 
+[![Built on travis-ci.org](https://travis-ci.org/olivierperez/o80-session.svg)](https://travis-ci.org/olivierperez/o80-session)
+
 # How-to
 
 ## Installation

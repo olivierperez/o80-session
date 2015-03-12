@@ -31,7 +31,7 @@ class Session {
      *
      * @return string the IP address
      */
-    private static function ip() {
+    public static function ip() {
         if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             if (strchr($_SERVER['HTTP_X_FORWARDED_FOR'], ',')) {
                 $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);

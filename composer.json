@@ -1,5 +1,5 @@
 {
-  "name": "o80/Session",
+  "name": "o80/session",
   "description": "Handle session start and provide some security.",
   "keywords": ["session"],
   "homepage": "https://github.com/olivierperez/o80-session",

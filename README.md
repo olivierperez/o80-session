@@ -4,6 +4,20 @@ This PHP library provide some security around the stealing of session.
 
 # How-to
 
+## Installation
+
+With [Composer](http://getcomposer.org/), you simply need to require [`o80/session`](https://packagist.org/packages/o80/session):
+
+```json
+{
+...
+    "require": {
+        "o80/session": "dev-master"
+    }
+...
+}
+```
+
 ## Starting session
 
 Replace `session_start();` by `o80\Session::start();`.

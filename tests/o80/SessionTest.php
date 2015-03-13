@@ -72,4 +72,17 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
+    public function testPutAndGetaluesInSeesion() {
+        // given
+        $key = 'SUPER KEY';
+        $value = 'v';
+
+        // when
+        $this->session->put($key, $value);
+        $newValue = $this->session->get($key);
+
+        // then
+        $this->assertEquals($value, $newValue);
+    }
+
 }

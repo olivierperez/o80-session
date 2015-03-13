@@ -62,7 +62,7 @@ class Session {
      * @param $key string the key of the value
      * @param $value mixed the value to store
      */
-    private function put($key, $value) {
+    public function put($key, $value) {
         $_SESSION[self::SESSION_MASTER_KEY][$key] = $value;
     }
 
@@ -72,7 +72,7 @@ class Session {
      * @param $key string the key of the value
      * @return mixed|null null is the value is not found
      */
-    private function get($key) {
+    public function get($key) {
         return isset($_SESSION[self::SESSION_MASTER_KEY][$key]) ? $_SESSION[self::SESSION_MASTER_KEY][$key] : null;
     }
 

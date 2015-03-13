@@ -14,7 +14,7 @@ class Session {
         if ($this->get('IP') === null) {
             // First creation
             $this->newSession();
-        } else if ( $this->isSessionStolen()) {
+        } else if ($this->isSessionStolen()) {
             // If one of the stored valed changed, we create a new session
             $this->newSession();
         }
@@ -82,7 +82,7 @@ class Session {
      * @param $key string the key of the value
      * @return string|null null is the value is not found
      */
-    private function fromServer($key) {
+    public function fromServer($key) {
         return !empty($_SERVER[$key]) ? $_SERVER[$key] : '';
     }
 

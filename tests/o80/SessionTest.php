@@ -85,4 +85,35 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($value, $newValue);
     }
 
+    /**
+     * @dataProvider valuesFromSERVER
+     */
+    public function testGetFromServer($key, $value, $getKey, $expected) {
+        // given
+        $_SERVER[$key] = $value;
+
+        // when
+        $fromServer = $this->invoke($this->session, 'fromServer', $getKey);
+
+        // then
+        $this->assertEquals($expected, $fromServer);
+    }
+
+    public function valuesFromSERVER() {
+        return array(
+            array('KEY', 'VALUE', 'KEY', 'VALUE'),
+            array('KEY2', 'VALUE2', 'KEY2', 'VALUE2'),
+            array('KEY', 'VALUE', 'NOT KEY', '')
+        );
+    }
+
+    private function invoke(&$object, $methodName) {
+        $reflectionClass = new \ReflectionClass($object);
+        $reflectionMethod = $reflectionClass->getMethod($methodName);
+        $reflectionMethod->setAccessible(true);
+
+        $params = array_slice(func_get_args(), 2); //get all the parameters after $methodName
+        return $reflectionMethod->invokeArgs($object, $params);
+    }
+
 }

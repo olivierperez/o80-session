@@ -18,7 +18,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
     public function testShouldFindIpOfClient($remoteAddr, $forwardedFor, $expected) {
         $_SERVER['REMOTE_ADDR'] = $remoteAddr;
         $_SERVER['HTTP_X_FORWARDED_FOR'] = $forwardedFor;
-        $ip = $this->session->ip();
+        $ip = $this->invoke($this->session, 'ip');
         $this->assertEquals($expected, $ip);
     }
 
@@ -55,7 +55,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
         $stub->method('ip')->willReturn($cIP);
 
         // when
-        $stolen = $stub->isSessionStolen();
+        $stolen = $this->invoke($stub, 'isSessionStolen');
 
         // then
         $this->assertEquals($expected, $stolen);
@@ -78,8 +78,8 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
         $value = 'v';
 
         // when
-        $this->session->put($key, $value);
-        $newValue = $this->session->get($key);
+        $this->invoke($this->session, 'put', $key, $value);
+        $newValue = $this->invoke($this->session, 'get', $key);
 
         // then
         $this->assertEquals($value, $newValue);

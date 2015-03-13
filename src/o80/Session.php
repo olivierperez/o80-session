@@ -62,7 +62,7 @@ class Session {
      * @param $key string the key of the value
      * @param $value mixed the value to store
      */
-    public function put($key, $value) {
+    private function put($key, $value) {
         $_SESSION[self::SESSION_MASTER_KEY][$key] = $value;
     }
 
@@ -72,7 +72,7 @@ class Session {
      * @param $key string the key of the value
      * @return mixed|null null is the value is not found
      */
-    public function get($key) {
+    private function get($key) {
         return isset($_SESSION[self::SESSION_MASTER_KEY][$key]) ? $_SESSION[self::SESSION_MASTER_KEY][$key] : null;
     }
 
@@ -82,7 +82,7 @@ class Session {
      * @param $key string the key of the value
      * @return string|null null is the value is not found
      */
-    public function fromServer($key) {
+    private function fromServer($key) {
         return !empty($_SERVER[$key]) ? $_SERVER[$key] : '';
     }
 
@@ -96,8 +96,7 @@ class Session {
         || $this->get('LANGUAGE') !== $this->fromServer('HTTP_ACCEPT_LANGUAGE')
         || $this->get('CHARSET') !== $this->fromServer('HTTP_ACCEPT_CHARSET')
         || $this->get('ENCODING') !== $this->fromServer('HTTP_ACCEPT_ENCODING')
-        || $this->get('IP') !== $this->ip()
-            ;
+        || $this->get('IP') !== $this->ip();
     }
 
 }

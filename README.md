@@ -2,7 +2,9 @@
 
 This PHP library provide some security around the stealing of session.
 
-[![Built on travis-ci.org](https://travis-ci.org/olivierperez/o80-session.svg)](https://travis-ci.org/olivierperez/o80-session)
+[![Build Status](https://travis-ci.org/olivierperez/o80-session.svg)](https://travis-ci.org/olivierperez/o80-session)
+[![Latest Unstable Version](https://poser.pugx.org/o80/session/v/unstable.svg)](https://packagist.org/packages/o80/session)
+[![License](https://poser.pugx.org/o80/session/license.svg)](https://packagist.org/packages/o80/session)
 
 # How-to
 

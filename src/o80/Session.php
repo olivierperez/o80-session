@@ -8,21 +8,15 @@ class Session {
     /**
      * This method secures the call to session_start() fonction.
      */
-    public static function start() {
+    public function start() {
         session_start();
 
-        if (self::get('IP') === null) {
+        if ($this->get('IP') === null) {
             // First creation
-            self::newSession();
-        } else if ( // Check if stored values are still the same
-            self::get('AGENT') !== self::fromServer('HTTP_USER_AGENT')
-            || self::get('LANGUAGE') !== self::fromServer('HTTP_ACCEPT_LANGUAGE')
-            || self::get('CHARSET') !== self::fromServer('HTTP_ACCEPT_CHARSET')
-            || self::get('ENCODING') !== self::fromServer('HTTP_ACCEPT_ENCODING')
-            || self::get('IP') !== self::ip()
-        ) {
+            $this->newSession();
+        } else if ( $this->isSessionStolen()) {
             // If one of the stored valed changed, we create a new session
-            self::newSession();
+            $this->newSession();
         }
     }
 
@@ -31,7 +25,7 @@ class Session {
      *
      * @return string the IP address
      */
-    public static function ip() {
+    public function ip() {
         if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             if (strchr($_SERVER['HTTP_X_FORWARDED_FOR'], ',')) {
                 $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
@@ -49,17 +43,17 @@ class Session {
     /**
      * Generate a new session. This method is call when the session is created or when an attack is detected.
      */
-    private static function newSession() {
+    private function newSession() {
         // New session
         session_regenerate_id();
         $_SESSION = array();
 
         // Store new values
-        self::put('AGENT', self::fromServer('HTTP_USER_AGENT'));
-        self::put('LANGUAGE', self::fromServer('HTTP_ACCEPT_LANGUAGE'));
-        self::put('CHARSET', self::fromServer('HTTP_ACCEPT_CHARSET'));
-        self::put('ENCODING', self::fromServer('HTTP_ACCEPT_ENCODING'));
-        self::put('IP', self::ip());
+        $this->put('AGENT', $this->fromServer('HTTP_USER_AGENT'));
+        $this->put('LANGUAGE', $this->fromServer('HTTP_ACCEPT_LANGUAGE'));
+        $this->put('CHARSET', $this->fromServer('HTTP_ACCEPT_CHARSET'));
+        $this->put('ENCODING', $this->fromServer('HTTP_ACCEPT_ENCODING'));
+        $this->put('IP', $this->ip());
     }
 
     /**
@@ -68,7 +62,7 @@ class Session {
      * @param $key string the key of the value
      * @param $value mixed the value to store
      */
-    private static function put($key, $value) {
+    private function put($key, $value) {
         $_SESSION[self::SESSION_MASTER_KEY][$key] = $value;
     }
 
@@ -78,7 +72,7 @@ class Session {
      * @param $key string the key of the value
      * @return mixed|null null is the value is not found
      */
-    private static function get($key) {
+    private function get($key) {
         return isset($_SESSION[self::SESSION_MASTER_KEY][$key]) ? $_SESSION[self::SESSION_MASTER_KEY][$key] : null;
     }
 
@@ -88,8 +82,22 @@ class Session {
      * @param $key string the key of the value
      * @return string|null null is the value is not found
      */
-    private static function fromServer($key) {
+    private function fromServer($key) {
         return !empty($_SERVER[$key]) ? $_SERVER[$key] : '';
+    }
+
+    /**
+     * Check if stored values are still the same or not.
+     *
+     * @return bool true if the session seamed to be stolen
+     */
+    public function isSessionStolen() {
+        return $this->get('AGENT') !== $this->fromServer('HTTP_USER_AGENT')
+        || $this->get('LANGUAGE') !== $this->fromServer('HTTP_ACCEPT_LANGUAGE')
+        || $this->get('CHARSET') !== $this->fromServer('HTTP_ACCEPT_CHARSET')
+        || $this->get('ENCODING') !== $this->fromServer('HTTP_ACCEPT_ENCODING')
+        || $this->get('IP') !== $this->ip()
+            ;
     }
 
 }

@@ -22,7 +22,7 @@ With [Composer](http://getcomposer.org/), you simply need to require [`o80/sessi
 
 ## Starting session
 
-Replace `session_start();` by `o80\Session::start();`.
+Replace `session_start();` by `$session = new o80\Session(); $session->start();`.
 
 ## Using session
 

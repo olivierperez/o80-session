@@ -52,7 +52,6 @@ class Session {
         $this->put('AGENT', $this->fromServer('HTTP_USER_AGENT'));
         $this->put('LANGUAGE', $this->fromServer('HTTP_ACCEPT_LANGUAGE'));
         $this->put('CHARSET', $this->fromServer('HTTP_ACCEPT_CHARSET'));
-        $this->put('ENCODING', $this->fromServer('HTTP_ACCEPT_ENCODING'));
         $this->put('IP', $this->ip());
     }
 
@@ -95,7 +94,6 @@ class Session {
         return $this->get('AGENT') !== $this->fromServer('HTTP_USER_AGENT')
         || $this->get('LANGUAGE') !== $this->fromServer('HTTP_ACCEPT_LANGUAGE')
         || $this->get('CHARSET') !== $this->fromServer('HTTP_ACCEPT_CHARSET')
-        || $this->get('ENCODING') !== $this->fromServer('HTTP_ACCEPT_ENCODING')
         || $this->get('IP') !== $this->ip();
     }
 

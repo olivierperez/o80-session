@@ -35,18 +35,16 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
     /**
      * @dataProvider isSessionStolenProvider
      */
-    public function testShouldCheckIfSessionIsStolen($sAgent, $sLanguage, $sCharset, $sEncoding, $sIP, $cAgent, $cLanguage, $cCharset, $cEncoding, $cIP, $expected) {
+    public function testShouldCheckIfSessionIsStolen($sAgent, $sLanguage, $sCharset, $sIP, $cAgent, $cLanguage, $cCharset, $cIP, $expected) {
         // given
         $_SESSION[Session::SESSION_MASTER_KEY]['AGENT'] = $sAgent;
         $_SESSION[Session::SESSION_MASTER_KEY]['LANGUAGE'] = $sLanguage;
         $_SESSION[Session::SESSION_MASTER_KEY]['CHARSET'] = $sCharset;
-        $_SESSION[Session::SESSION_MASTER_KEY]['ENCODING'] = $sEncoding;
         $_SESSION[Session::SESSION_MASTER_KEY]['IP'] = $sIP;
 
         $_SERVER['HTTP_USER_AGENT'] = $cAgent;
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = $cLanguage;
         $_SERVER['HTTP_ACCEPT_CHARSET'] = $cCharset;
-        $_SERVER['HTTP_ACCEPT_ENCODING'] = $cEncoding;
 
         // Stub "ip()" method
         $stub = $this->getMockBuilder('o80\\Session')
@@ -63,12 +61,11 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 
     public function isSessionStolenProvider() {
         return array(
-            array('A', 'L', 'C', 'E', 'I', 'A', 'L', 'C', 'E', 'I', false),
-            array('A', 'L', 'C', 'E', 'I', 'A', 'L', 'C', 'E', '-', true),
-            array('A', 'L', 'C', 'E', 'I', 'A', 'L', 'C', '-', 'I', true),
-            array('A', 'L', 'C', 'E', 'I', 'A', 'L', '-', 'E', 'I', true),
-            array('A', 'L', 'C', 'E', 'I', '-', '-', 'C', 'E', 'I', true),
-            array('A', 'L', 'C', 'E', 'I', '-', '-', '-', '-', '-', true),
+            array('A', 'L', 'C', 'I', 'A', 'L', 'C', 'I', false),
+            array('A', 'L', 'C', 'I', 'A', 'L', 'C', '-', true),
+            array('A', 'L', 'C', 'I', 'A', 'L', '-', 'I', true),
+            array('A', 'L', 'C', 'I', '-', '-', 'C', 'I', true),
+            array('A', 'L', 'C', 'I', '-', '-', '-', '-', true),
         );
     }
 
